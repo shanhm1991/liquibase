@@ -34,7 +34,7 @@ public class MediumIntType extends LiquibaseDataType {
             type.addAdditionalInformation(getAdditionalInformation());
             return type;
         }
-        if ((database instanceof AbstractDb2Database) || (database instanceof DerbyDatabase) || (database instanceof FirebirdDatabase) || database instanceof OracleDatabase) {
+        if ((database instanceof AbstractDb2Database) || (database instanceof DerbyDatabase) || (database instanceof FirebirdDatabase) || database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             return new DatabaseDataType("MEDIUMINT"); //always mediumint regardless of parameters passed
         }
         return super.toDatabaseDataType(database);

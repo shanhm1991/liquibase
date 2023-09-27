@@ -4,6 +4,7 @@ import liquibase.change.Change;
 import liquibase.change.core.AddUniqueConstraintChange;
 import liquibase.change.core.DropUniqueConstraintChange;
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.diff.ObjectDifferences;
 import liquibase.diff.output.DiffOutputControl;
@@ -66,7 +67,7 @@ public class ChangedUniqueConstraintChangeGenerator extends AbstractChangeGenera
         }
 
         Index backingIndex = uniqueConstraint.getBackingIndex();
-        if (comparisonDatabase instanceof OracleDatabase) {
+        if (comparisonDatabase instanceof OracleDatabase || comparisonDatabase instanceof OSCARDatabase) {
             if ((backingIndex != null) && (backingIndex.getName() != null)) {
                 Change[] missingIndexChanges = ChangeGeneratorFactory.getInstance().fixMissing(backingIndex, control, referenceDatabase, comparisonDatabase);
                 if (missingIndexChanges != null) {

@@ -39,7 +39,7 @@ public class TinyIntType  extends LiquibaseDataType {
             type.addAdditionalInformation(getAdditionalInformation());
             return type;
         }
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             return new DatabaseDataType("NUMBER",3);
         }
         return super.toDatabaseDataType(database);

@@ -1,6 +1,7 @@
 package liquibase.sqlgenerator.core;
 
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.datatype.DataTypeFactory;
 import liquibase.sql.Sql;
@@ -16,7 +17,7 @@ public class AddDefaultValueGeneratorOracle extends AddDefaultValueGenerator {
 
     @Override
     public boolean supports(AddDefaultValueStatement statement, Database database) {
-        return database instanceof OracleDatabase;
+        return database instanceof OracleDatabase || database instanceof OSCARDatabase;
     }
 
     @Override

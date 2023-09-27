@@ -185,7 +185,7 @@ public class SequenceSnapshotGenerator extends JdbcSnapshotGenerator {
             return "SELECT SEQUENCE_NAME FROM INFORMATION_SCHEMA.SYSTEM_SEQUENCES WHERE SEQUENCE_SCHEMA = '" + schema.getName() + "'";
         } else if (database instanceof InformixDatabase) {
             return "SELECT tabname AS SEQUENCE_NAME FROM systables t, syssequences s WHERE s.tabid = t.tabid AND t.owner = '" + schema.getName() + "'";
-        } else if (database instanceof OracleDatabase) {
+        } else if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             /*
              * Return an SQL statement that only returns the non-default values so the output changeLog is cleaner
              * and less polluted with unnecessary values.

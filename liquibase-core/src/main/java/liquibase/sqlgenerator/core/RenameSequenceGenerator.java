@@ -13,7 +13,7 @@ public class RenameSequenceGenerator extends AbstractSqlGenerator<RenameSequence
 
     @Override
     public boolean supports(RenameSequenceStatement statement, Database database) {
-        return database.supportsSequences() 
+        return database.supportsSequences()
             // TODO: following are not implemented/tested currently
             && !(database instanceof AbstractDb2Database)
             && !(database instanceof FirebirdDatabase)
@@ -37,7 +37,7 @@ public class RenameSequenceGenerator extends AbstractSqlGenerator<RenameSequence
 
         if (database instanceof PostgresDatabase) {
             sql = "ALTER SEQUENCE " + database.escapeSequenceName(statement.getCatalogName(), statement.getSchemaName(), statement.getOldSequenceName()) + " RENAME TO " + database.escapeObjectName(statement.getNewSequenceName(), Sequence.class);
-        } else if (database instanceof OracleDatabase) {
+        } else if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             sql = "RENAME " + database.escapeObjectName(statement.getOldSequenceName(), Sequence.class) + " TO " + database.escapeObjectName(statement.getNewSequenceName(), Sequence.class);
         } else if( database instanceof MSSQLDatabase){
             sql = "sp_rename " + database.escapeObjectName(statement.getOldSequenceName(), Sequence.class) + " ," + database.escapeObjectName(statement.getNewSequenceName(),Sequence.class);

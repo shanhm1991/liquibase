@@ -4,10 +4,7 @@ import liquibase.CatalogAndSchema;
 import liquibase.Scope;
 import liquibase.database.AbstractJdbcDatabase;
 import liquibase.database.Database;
-import liquibase.database.core.InformixDatabase;
-import liquibase.database.core.MariaDBDatabase;
-import liquibase.database.core.MySQLDatabase;
-import liquibase.database.core.OracleDatabase;
+import liquibase.database.core.*;
 import liquibase.exception.DatabaseException;
 import liquibase.snapshot.CachedRow;
 import liquibase.snapshot.DatabaseSnapshot;
@@ -158,7 +155,7 @@ public class ViewSnapshotGenerator extends JdbcSnapshotGenerator {
                     view.setRemarks(row.getString("REMARKS"));
                     String definition = StringUtil.standardizeLineEndings(row.getString("OBJECT_BODY"));
                     view.setDefinition(definition);
-                    if(database instanceof OracleDatabase) {
+                    if(database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                         view.setAttribute("editioning", "Y".equals(row.getString("EDITIONING_VIEW")));
                     }
                     schema.addDatabaseObject(view);

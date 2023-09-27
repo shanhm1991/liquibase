@@ -1,6 +1,7 @@
 package liquibase.executor.jvm;
 
 import liquibase.Scope;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.sql.SqlConfiguration;
 import liquibase.database.DatabaseConnection;
 import liquibase.database.OfflineConnection;
@@ -371,7 +372,7 @@ public class JdbcExecutor extends AbstractExecutor {
             Logger log = Scope.getCurrentScope().getLog(getClass());
 
             for (String statement : applyVisitors(sql, sqlVisitors)) {
-                if (database instanceof OracleDatabase) {
+                if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                     while (statement.matches("(?s).*[\\s\\r\\n]*[^*]/[\\s\\r\\n]*$")) { //all trailing /'s
                         statement = statement.replaceFirst("[\\s\\r\\n]*[^*]/[\\s\\r\\n]*$", "");
                     }

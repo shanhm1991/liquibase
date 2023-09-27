@@ -3,6 +3,7 @@ package liquibase.change.core;
 import liquibase.Scope;
 import liquibase.change.*;
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.exception.ValidationErrors;
 import liquibase.parser.core.ParsedNode;
@@ -65,7 +66,7 @@ public class UpdateDataChange extends AbstractModifyDataChange implements Change
                 needsPreparedStatement = true;
             }
 
-            if ((database instanceof OracleDatabase) && (column.getType() != null) && "CLOB".equalsIgnoreCase(column
+            if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) && (column.getType() != null) && "CLOB".equalsIgnoreCase(column
                 .getType()) && (column.getValue() != null) && (column.getValue().length() >= 4000)) {
                 needsPreparedStatement = true;
             }
@@ -81,21 +82,21 @@ public class UpdateDataChange extends AbstractModifyDataChange implements Change
 
         if (needsPreparedStatement) {
             UpdateExecutablePreparedStatement statement = new UpdateExecutablePreparedStatement(database, catalogName, schemaName, tableName, columns, getChangeSet(), Scope.getCurrentScope().getResourceAccessor());
-            
+
             statement.setWhereClause(where);
-            
+
             for (ColumnConfig whereParam : whereParams) {
                 if (whereParam.getName() != null) {
                     statement.addWhereColumnName(whereParam.getName());
                 }
                 statement.addWhereParameter(whereParam.getValueObject());
             }
-            
+
             return new SqlStatement[] {
                     statement
             };
         }
-    	
+
         UpdateStatement statement = new UpdateStatement(getCatalogName(), getSchemaName(), getTableName());
 
         for (ColumnConfig column : getColumns()) {

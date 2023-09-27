@@ -2,6 +2,7 @@ package liquibase.sqlgenerator.core;
 
 import liquibase.Scope;
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.executor.ExecutorService;
 import liquibase.executor.LoggingExecutor;
@@ -12,7 +13,7 @@ public class InsertOrUpdateGeneratorOracle extends InsertOrUpdateGenerator {
 
     @Override
     public boolean supports(InsertOrUpdateStatement statement, Database database) {
-        return database instanceof OracleDatabase;
+        return database instanceof OracleDatabase || database instanceof OSCARDatabase;
     }
 
     @Override

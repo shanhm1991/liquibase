@@ -2,6 +2,7 @@ package liquibase.sqlgenerator.core;
 
 import liquibase.CatalogAndSchema;
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.sql.Sql;
 import liquibase.sql.UnparsedSql;
@@ -16,7 +17,7 @@ public class GetViewDefinitionGeneratorOracle extends GetViewDefinitionGenerator
 
     @Override
     public boolean supports(GetViewDefinitionStatement statement, Database database) {
-        return database instanceof OracleDatabase;
+        return database instanceof OracleDatabase || database instanceof OSCARDatabase;
     }
 
     @Override

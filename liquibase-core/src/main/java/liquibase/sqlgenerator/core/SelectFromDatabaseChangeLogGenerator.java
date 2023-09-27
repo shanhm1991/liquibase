@@ -3,11 +3,7 @@ package liquibase.sqlgenerator.core;
 import liquibase.change.ColumnConfig;
 import liquibase.database.Database;
 import liquibase.database.ObjectQuotingStrategy;
-import liquibase.database.core.AbstractDb2Database;
-import liquibase.database.core.MSSQLDatabase;
-import liquibase.database.core.MySQLDatabase;
-import liquibase.database.core.OracleDatabase;
-import liquibase.database.core.PostgresDatabase;
+import liquibase.database.core.*;
 import liquibase.exception.UnexpectedLiquibaseException;
 import liquibase.exception.ValidationErrors;
 import liquibase.sql.Sql;
@@ -79,7 +75,7 @@ public class SelectFromDatabaseChangeLogGenerator extends AbstractSqlGenerator<S
             }
 
             if (statement.getLimit() != null) {
-                if (database instanceof OracleDatabase) {
+                if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                     if (whereClause == null) {
                         sql += " WHERE ROWNUM="+statement.getLimit();
                     } else {

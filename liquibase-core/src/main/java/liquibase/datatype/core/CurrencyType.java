@@ -34,7 +34,7 @@ public class CurrencyType  extends LiquibaseDataType {
             SybaseDatabase)) {
             return new DatabaseDataType("MONEY");
         }
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             return new DatabaseDataType("NUMBER", 15, 2);
         }
 

@@ -30,7 +30,7 @@ public class UUIDType extends LiquibaseDataType {
         if ((database instanceof SybaseASADatabase) || (database instanceof SybaseDatabase)) {
             return new DatabaseDataType("UNIQUEIDENTIFIER");
         }
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             return new DatabaseDataType("RAW",16);
         }
         if (database instanceof SQLiteDatabase) {

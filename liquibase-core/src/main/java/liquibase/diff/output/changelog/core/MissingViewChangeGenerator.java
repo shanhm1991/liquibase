@@ -3,6 +3,7 @@ package liquibase.diff.output.changelog.core;
 import liquibase.change.Change;
 import liquibase.change.core.CreateViewChange;
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.diff.output.DiffOutputControl;
 import liquibase.diff.output.changelog.AbstractChangeGenerator;
@@ -54,7 +55,7 @@ public class MissingViewChangeGenerator extends AbstractChangeGenerator implemen
         boolean fullDefinitionOverridden = false;
         if (selectQuery == null) {
             selectQuery = "COULD NOT DETERMINE VIEW QUERY";
-        } else if ((comparisonDatabase instanceof OracleDatabase) && (view.getColumns() != null) && !view.getColumns
+        } else if ((comparisonDatabase instanceof OracleDatabase || comparisonDatabase instanceof OSCARDatabase) && (view.getColumns() != null) && !view.getColumns
             ().isEmpty()) {
             String viewName;
             if ((change.getCatalogName() == null) && (change.getSchemaName() == null)) {

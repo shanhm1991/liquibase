@@ -27,7 +27,7 @@ public class CreateDatabaseChangeLogLockTableGenerator extends AbstractSqlGenera
                 .setTablespace(database.getLiquibaseTablespaceName())
                 .addPrimaryKeyColumn("ID", DataTypeFactory.getInstance().fromDescription("int", database), null, null, null, new NotNullConstraint())
                 .addColumn("LOCKED", DataTypeFactory.getInstance().fromDescription("boolean", database), null, null, new NotNullConstraint())
-                .addColumn("LOCKGRANTED", DataTypeFactory.getInstance().fromDescription(dateTimeTypeString, database))
+                .addColumn("LOCKGRANTED", DataTypeFactory.getInstance().fromDescription("timestamp", database))
                 .addColumn("LOCKEDBY", DataTypeFactory.getInstance().fromDescription(charTypeName + "(255)", database));
 
         // use LEGACY quoting since we're dealing with system objects

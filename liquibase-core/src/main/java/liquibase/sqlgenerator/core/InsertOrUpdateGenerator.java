@@ -1,6 +1,7 @@
 package liquibase.sqlgenerator.core;
 
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.datatype.DataTypeFactory;
 import liquibase.exception.LiquibaseException;
@@ -97,7 +98,7 @@ public abstract class InsertOrUpdateGenerator extends AbstractSqlGenerator<Inser
                 insertOrUpdateStatement.getCatalogName(),
                 insertOrUpdateStatement.getSchemaName(),
                 insertOrUpdateStatement.getTableName());
-        if (!((database instanceof OracleDatabase) && (insertOrUpdateStatement.getOnlyUpdate() != null) &&
+        if (!((database instanceof OracleDatabase || database instanceof OSCARDatabase) && (insertOrUpdateStatement.getOnlyUpdate() != null) &&
                 insertOrUpdateStatement.getOnlyUpdate())) {
             whereClause += ";\n";
         }

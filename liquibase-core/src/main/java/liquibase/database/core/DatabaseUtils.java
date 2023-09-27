@@ -27,7 +27,7 @@ public class DatabaseUtils {
                 OfflineConnection)) {
             final Executor executor = Scope.getCurrentScope().getSingleton(ExecutorService.class).getExecutor("jdbc", database);
 
-            if (database instanceof OracleDatabase) {
+            if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                 String schema = defaultCatalogName;
                 if (schema == null) {
                     schema = defaultSchemaName;

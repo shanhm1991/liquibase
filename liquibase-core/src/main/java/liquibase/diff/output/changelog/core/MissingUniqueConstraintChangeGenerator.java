@@ -6,6 +6,7 @@ import liquibase.change.core.AddUniqueConstraintChange;
 import liquibase.database.AbstractJdbcDatabase;
 import liquibase.database.Database;
 import liquibase.database.core.MSSQLDatabase;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.diff.DiffResult;
 import liquibase.diff.output.DiffOutputControl;
@@ -75,7 +76,7 @@ public class MissingUniqueConstraintChangeGenerator extends AbstractChangeGenera
             change.setClustered(uc.isClustered() ? Boolean.TRUE : null);
         }
 
-        if (comparisonDatabase instanceof OracleDatabase) {
+        if (comparisonDatabase instanceof OracleDatabase || comparisonDatabase instanceof OSCARDatabase) {
             Index backingIndex = uc.getBackingIndex();
             if ((backingIndex != null) && (backingIndex.getName() != null)) {
                 if (referenceDatabase.equals(comparisonDatabase) || !alreadyExists(backingIndex, comparisonDatabase, control)) {

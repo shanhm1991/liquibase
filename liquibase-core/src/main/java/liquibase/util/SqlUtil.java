@@ -5,10 +5,7 @@ import static java.util.Locale.US;
 import java.util.Locale;
 import liquibase.Scope;
 import liquibase.database.Database;
-import liquibase.database.core.AbstractDb2Database;
-import liquibase.database.core.MSSQLDatabase;
-import liquibase.database.core.MySQLDatabase;
-import liquibase.database.core.OracleDatabase;
+import liquibase.database.core.*;
 import liquibase.datatype.DataTypeFactory;
 import liquibase.datatype.LiquibaseDataType;
 import liquibase.datatype.core.*;
@@ -82,7 +79,7 @@ public abstract class SqlUtil {
             }
         }
 
-        if ((database instanceof OracleDatabase) && !stringVal.startsWith("'") && !stringVal.endsWith("'")) {
+        if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) && !stringVal.startsWith("'") && !stringVal.endsWith("'")) {
             //oracle returns functions without quotes
             Object maybeDate = null;
 

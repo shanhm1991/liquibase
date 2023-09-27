@@ -24,7 +24,7 @@ public class NVarcharType extends CharType {
 
             return new DatabaseDataType("VARCHAR", getParameters());
         }
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             return new DatabaseDataType("NVARCHAR2", getParameters());
         }
         if (database instanceof MSSQLDatabase) {

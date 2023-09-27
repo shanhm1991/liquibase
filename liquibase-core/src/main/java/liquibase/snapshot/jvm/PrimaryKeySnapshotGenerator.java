@@ -4,6 +4,7 @@ import liquibase.CatalogAndSchema;
 import liquibase.database.AbstractJdbcDatabase;
 import liquibase.database.Database;
 import liquibase.database.core.MSSQLDatabase;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.database.core.SQLiteDatabase;
 import liquibase.exception.DatabaseException;
@@ -91,7 +92,7 @@ public class PrimaryKeySnapshotGenerator extends JdbcSnapshotGenerator {
      * @param cachedRow - it's a cache-map to get metadata about PK
      */
     private void setValidateOptionIfAvailable(Database database, PrimaryKey primaryKey, CachedRow cachedRow) {
-        if (!(database instanceof OracleDatabase)) {
+        if (!(database instanceof OracleDatabase || database instanceof OSCARDatabase)) {
             return;
         }
         final String constraintValidate = cachedRow.getString("VALIDATED");

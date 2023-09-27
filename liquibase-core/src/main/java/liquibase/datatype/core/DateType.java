@@ -65,7 +65,7 @@ public class DateType extends LiquibaseDataType {
         try {
             DateFormat dateFormat = getDateFormat(database);
 
-            if ((database instanceof OracleDatabase) && value.matches("to_date\\('\\d+\\-\\d+\\-\\d+', " +
+            if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) && value.matches("to_date\\('\\d+\\-\\d+\\-\\d+', " +
                 "'YYYY\\-MM\\-DD'\\)")) {
                 dateFormat = new SimpleDateFormat("yyyy-MM-dd");
                 value = value.replaceFirst(".*?'", "").replaceFirst("',.*","");
@@ -82,7 +82,7 @@ public class DateType extends LiquibaseDataType {
     }
 
     protected DateFormat getDateFormat(Database database) {
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             return new SimpleDateFormat("dd-MMM-yy");
         } else {
             return new SimpleDateFormat("yyyy-MM-dd");

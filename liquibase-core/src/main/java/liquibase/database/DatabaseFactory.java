@@ -1,6 +1,7 @@
 package liquibase.database;
 
 import liquibase.Scope;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.UnsupportedDatabase;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.exception.DatabaseException;
@@ -22,11 +23,19 @@ public class DatabaseFactory {
     private Map<String, SortedSet<Database>> implementedDatabases = new HashMap<>();
     private Map<String, SortedSet<Database>> internalDatabases = new HashMap<>();
 
+    public static void main(String[] args) {
+        for (Database database : Scope.getCurrentScope().getServiceLocator().findInstances(Database.class)) {
+            System.out.println(database);
+        }
+    }
+
     private DatabaseFactory() {
         try {
             for (Database database : Scope.getCurrentScope().getServiceLocator().findInstances(Database.class)) {
                 register(database);
             }
+            Database oscar = new OSCARDatabase();
+            register(oscar);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

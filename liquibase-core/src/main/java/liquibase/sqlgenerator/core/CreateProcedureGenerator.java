@@ -139,7 +139,7 @@ public class CreateProcedureGenerator extends AbstractSqlGenerator<CreateProcedu
         if ((StringUtil.trimToNull(schemaName) != null) &&
                 !ChangeLogParserConfiguration.USE_PROCEDURE_SCHEMA.getCurrentValue()) {
             String defaultSchema = database.getDefaultSchemaName();
-            if (database instanceof OracleDatabase) {
+            if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                 sql.add(0, new UnparsedSql("ALTER SESSION SET CURRENT_SCHEMA=" + database.escapeObjectName(schemaName, Schema.class)));
                 sql.add(new UnparsedSql("ALTER SESSION SET CURRENT_SCHEMA=" + database.escapeObjectName(defaultSchema, Schema.class)));
             } else if (database instanceof AbstractDb2Database) {

@@ -279,7 +279,7 @@ public class CreateProcedureChange extends AbstractChange implements DbmsTargete
     @Override
     public SqlStatement[] generateStatements(Database database) {
         String endDelimiter = ";";
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             endDelimiter = "\n/";
         } else if (database instanceof AbstractDb2Database) {
             endDelimiter = "";

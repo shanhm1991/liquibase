@@ -96,11 +96,11 @@ public class TagDatabaseGenerator extends AbstractSqlGenerator<TagDatabaseStatem
                                 "AND " + latestAliasEscaped + "." + authorColumnEscaped + " = " + changelogAliasEscaped + "." + authorColumnEscaped + " " +
                                 "AND " + latestAliasEscaped + "." + filenameColumnEscaped + " = " + changelogAliasEscaped + "." + filenameColumnEscaped)
                     };
-            } else if ((database instanceof OracleDatabase) || (database instanceof DB2Database)) {
+            } else if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) || (database instanceof DB2Database)) {
                 String selectClause = "SELECT";
                 String endClause = ")";
                 String delimiter = "";
-                if (database instanceof OracleDatabase) {
+                if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                     selectClause = "SELECT * FROM (SELECT";
                     endClause = ") where rownum=1)";
                 } else if (database instanceof AbstractDb2Database) {

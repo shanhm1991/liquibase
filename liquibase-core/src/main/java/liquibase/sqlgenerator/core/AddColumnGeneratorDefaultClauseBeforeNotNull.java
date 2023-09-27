@@ -1,15 +1,7 @@
 package liquibase.sqlgenerator.core;
 
 import liquibase.database.Database;
-import liquibase.database.core.AbstractDb2Database;
-import liquibase.database.core.DerbyDatabase;
-import liquibase.database.core.FirebirdDatabase;
-import liquibase.database.core.H2Database;
-import liquibase.database.core.HsqlDatabase;
-import liquibase.database.core.InformixDatabase;
-import liquibase.database.core.OracleDatabase;
-import liquibase.database.core.SybaseASADatabase;
-import liquibase.database.core.SybaseDatabase;
+import liquibase.database.core.*;
 import liquibase.datatype.DataTypeFactory;
 import liquibase.exception.ValidationErrors;
 import liquibase.sqlgenerator.SqlGeneratorChain;
@@ -24,7 +16,7 @@ public class AddColumnGeneratorDefaultClauseBeforeNotNull extends AddColumnGener
 
     @Override
     public boolean supports(AddColumnStatement statement, Database database) {
-        return (database instanceof OracleDatabase) || (database instanceof HsqlDatabase) || (database instanceof
+        return (database instanceof OracleDatabase || database instanceof OSCARDatabase) || (database instanceof HsqlDatabase) || (database instanceof
             H2Database) || (database instanceof DerbyDatabase) || (database instanceof AbstractDb2Database) || (database
             instanceof FirebirdDatabase) || (database instanceof SybaseDatabase) || (database instanceof
             SybaseASADatabase) || (database instanceof InformixDatabase);

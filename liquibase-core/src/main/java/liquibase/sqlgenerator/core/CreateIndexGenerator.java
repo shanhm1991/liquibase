@@ -2,14 +2,7 @@ package liquibase.sqlgenerator.core;
 
 import liquibase.change.AddColumnConfig;
 import liquibase.database.Database;
-import liquibase.database.core.AbstractDb2Database;
-import liquibase.database.core.HsqlDatabase;
-import liquibase.database.core.InformixDatabase;
-import liquibase.database.core.MSSQLDatabase;
-import liquibase.database.core.MockDatabase;
-import liquibase.database.core.OracleDatabase;
-import liquibase.database.core.PostgresDatabase;
-import liquibase.database.core.SybaseASADatabase;
+import liquibase.database.core.*;
 import liquibase.exception.ValidationErrors;
 import liquibase.exception.Warnings;
 import liquibase.sql.Sql;
@@ -43,7 +36,7 @@ public class CreateIndexGenerator extends AbstractSqlGenerator<CreateIndexStatem
                          SqlGeneratorChain sqlGeneratorChain) {
 
         Warnings warnings = super.warn(createIndexStatement, database, sqlGeneratorChain);
-        if (!((database instanceof MSSQLDatabase) || (database instanceof OracleDatabase) || (database instanceof
+        if (!((database instanceof MSSQLDatabase) || (database instanceof OracleDatabase || database instanceof OSCARDatabase) || (database instanceof
                 AbstractDb2Database) || (database instanceof PostgresDatabase) || (database instanceof MockDatabase))) {
             if ((createIndexStatement.isClustered() != null) && createIndexStatement.isClustered()) {
                 warnings.addWarning("Creating clustered index not supported with "+database);
@@ -68,7 +61,7 @@ public class CreateIndexGenerator extends AbstractSqlGenerator<CreateIndexStatem
     @Override
     public Sql[] generateSql(CreateIndexStatement statement, Database database, SqlGeneratorChain sqlGeneratorChain)
     {
-	    if (database instanceof OracleDatabase) {
+	    if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
 		    /*
 		     * Oracle automatically creates indexes for PRIMARY KEY and UNIQUE constraints, but does not do so
 	         * for FOREIGN KEY constraints, though it is highly recommended to do to avoid potentially severe
@@ -115,7 +108,7 @@ public class CreateIndexGenerator extends AbstractSqlGenerator<CreateIndexStatem
             buffer.append(database.escapeIndexName(statement.getTableCatalogName(), indexSchema, statement.getIndexName())).append(" ");
 	    }
 	    buffer.append("ON ");
-        if ((database instanceof OracleDatabase) && (statement.isClustered() != null) && statement.isClustered()){
+        if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) && (statement.isClustered() != null) && statement.isClustered()){
             buffer.append("CLUSTER ");
         }
 	    buffer.append(database.escapeTableName(statement.getTableCatalogName(), statement.getTableSchemaName(), statement.getTableName())).append("(");

@@ -97,7 +97,7 @@ public class ColumnSnapshotGenerator extends JdbcSnapshotGenerator {
     }
 
     private void populateValidateNullableIfNeeded(Column column, List<CachedRow> metaDataNotNullConst, Database database) {
-        if (!(database instanceof OracleDatabase)) {
+        if (!(database instanceof OracleDatabase || database instanceof OSCARDatabase)) {
             return;
         }
         String name = column.getName();
@@ -286,7 +286,7 @@ public class ColumnSnapshotGenerator extends JdbcSnapshotGenerator {
         if (columnMetadataResultSet.get("IS_ROWGUIDCOL") != null && (Boolean) columnMetadataResultSet.get("IS_ROWGUIDCOL")) {
             column.setAttribute("rowGuid", true);
         }
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             String nullable = columnMetadataResultSet.getString("NULLABLE");
             if ("Y".equals(nullable)) {
                 column.setNullable(true);
@@ -310,7 +310,7 @@ public class ColumnSnapshotGenerator extends JdbcSnapshotGenerator {
 
         if (database.supportsAutoIncrement()) {
             if (table instanceof Table) {
-                if (database instanceof OracleDatabase) {
+                if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                     Column.AutoIncrementInformation autoIncrementInfo = new Column.AutoIncrementInformation();
                     String data_default = StringUtil.trimToEmpty((String) columnMetadataResultSet.get("DATA_DEFAULT")).toLowerCase();
                     if (data_default.contains("iseq$$") && data_default.endsWith("nextval")) {
@@ -418,7 +418,7 @@ public class ColumnSnapshotGenerator extends JdbcSnapshotGenerator {
      */
     protected DataType readDataType(CachedRow columnMetadataResultSet, Column column, Database database) throws DatabaseException {
 
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             String dataType = columnMetadataResultSet.getString("DATA_TYPE_NAME");
             dataType = dataType.replace("VARCHAR2", "VARCHAR");
             dataType = dataType.replace("NVARCHAR2", "NVARCHAR");
@@ -633,7 +633,7 @@ public class ColumnSnapshotGenerator extends JdbcSnapshotGenerator {
             }
         }
 
-        if ((database instanceof OracleDatabase) && (columnMetadataResultSet.get(COLUMN_DEF_COL) == null)) {
+        if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) && (columnMetadataResultSet.get(COLUMN_DEF_COL) == null)) {
             columnMetadataResultSet.set(COLUMN_DEF_COL, columnMetadataResultSet.get("DATA_DEFAULT"));
 
             if ((columnMetadataResultSet.get(COLUMN_DEF_COL) != null) && "NULL".equalsIgnoreCase((String)

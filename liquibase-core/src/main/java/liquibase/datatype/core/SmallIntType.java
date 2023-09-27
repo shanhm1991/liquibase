@@ -42,7 +42,7 @@ public class SmallIntType extends LiquibaseDataType {
             return new DatabaseDataType("SMALLINT"); //always smallint regardless of parameters passed
         }
 
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             return new DatabaseDataType("NUMBER", 5);
         }
 

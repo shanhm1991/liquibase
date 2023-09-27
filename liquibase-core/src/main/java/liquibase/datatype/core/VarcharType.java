@@ -14,7 +14,7 @@ public class VarcharType extends CharType {
 
     @Override
     public DatabaseDataType toDatabaseDataType(Database database) {
-        if ((database instanceof OracleDatabase) || ((database instanceof HsqlDatabase) && ((HsqlDatabase) database)
+        if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) || ((database instanceof HsqlDatabase) && ((HsqlDatabase) database)
             .isUsingOracleSyntax())) {
             return new DatabaseDataType("VARCHAR2", getParameters());
         }

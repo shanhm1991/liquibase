@@ -7,13 +7,7 @@ import java.util.List;
 import liquibase.Scope;
 import liquibase.change.*;
 import liquibase.database.Database;
-import liquibase.database.core.DB2Database;
-import liquibase.database.core.Db2zDatabase;
-import liquibase.database.core.HsqlDatabase;
-import liquibase.database.core.InformixDatabase;
-import liquibase.database.core.MSSQLDatabase;
-import liquibase.database.core.OracleDatabase;
-import liquibase.database.core.SybaseASADatabase;
+import liquibase.database.core.*;
 import liquibase.datatype.DataTypeFactory;
 import liquibase.exception.ValidationErrors;
 import liquibase.snapshot.SnapshotGeneratorFactory;
@@ -219,7 +213,7 @@ public class AddLookupTableChange extends AbstractChange {
 
         statements.addAll(Arrays.asList(createTablesSQL));
 
-        if (!(database instanceof OracleDatabase) && !(database instanceof Db2zDatabase)) {
+        if (!(database instanceof OracleDatabase || database instanceof OSCARDatabase) && !(database instanceof Db2zDatabase)) {
             AddNotNullConstraintChange addNotNullChange = new AddNotNullConstraintChange();
             addNotNullChange.setSchemaName(newTableSchemaName);
             addNotNullChange.setTableName(getNewTableName());

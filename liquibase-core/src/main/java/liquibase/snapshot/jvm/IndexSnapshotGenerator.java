@@ -190,7 +190,7 @@ public class IndexSnapshotGenerator extends JdbcSnapshotGenerator {
 
                 String definition = StringUtil.trimToNull(row.getString("FILTER_CONDITION"));
                 if (definition != null) {
-                    if (!(database instanceof OracleDatabase)) { //TODO: this replaceAll code has been there for a long time but we don't know why. Investigate when it is ever needed and modify it to be smarter
+                    if (!(database instanceof OracleDatabase || database instanceof OSCARDatabase)) { //TODO: this replaceAll code has been there for a long time but we don't know why. Investigate when it is ever needed and modify it to be smarter
                         definition = definition.replaceAll("\"", "");
                     }
                 }
@@ -215,13 +215,23 @@ public class IndexSnapshotGenerator extends JdbcSnapshotGenerator {
                  * Our strategy here is: If the expression would be a valid Oracle identifier, but not a valid Oracle
                  * function name, then we assume it is the name of a regular column.
                  */
-                if ((database instanceof OracleDatabase) && (definition != null) && (columnName != null)) {
+                if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) && (definition != null) && (columnName != null)) {
                     String potentialColumnExpression = definition.replaceFirst("^\"?(.*?)\"?$", "$1");
-                    OracleDatabase oracle = (OracleDatabase) database;
-                    if (oracle.isValidOracleIdentifier(potentialColumnExpression, Index.class)
-                            && (!oracle.isFunction(potentialColumnExpression))) {
-                        columnName = potentialColumnExpression;
-                        definition = null;
+
+                    if (database instanceof OracleDatabase){
+                        OracleDatabase oracle = (OracleDatabase) database;
+                        if (oracle.isValidOracleIdentifier(potentialColumnExpression, Index.class)
+                                && (!oracle.isFunction(potentialColumnExpression))) {
+                            columnName = potentialColumnExpression;
+                            definition = null;
+                        }
+                    }else{
+                        OSCARDatabase oracle = (OSCARDatabase) database;
+                        if (oracle.isValidOracleIdentifier(potentialColumnExpression, Index.class)
+                                && (!oracle.isFunction(potentialColumnExpression))) {
+                            columnName = potentialColumnExpression;
+                            definition = null;
+                        }
                     }
                 }
 

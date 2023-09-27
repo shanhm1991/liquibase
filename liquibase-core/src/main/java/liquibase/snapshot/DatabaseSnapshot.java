@@ -329,6 +329,11 @@ public abstract class DatabaseSnapshot implements LiquibaseSerializable {
             }
 
         } else {
+
+//            Schema osrdb = object.getAttribute("schema", Schema.class);
+//            if(osrdb != null && "OSRDB".equals(osrdb.getAttribute("name", String.class))){
+//                object.setAttribute("schema", example.getAttribute("schema", Schema.class));
+//            }
             allFound.add(object);
 
             try {

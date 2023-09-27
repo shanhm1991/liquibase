@@ -74,7 +74,7 @@ public class MissingPrimaryKeyChangeGenerator extends AbstractChangeGenerator im
             change.setClustered(true);
         }
 
-        if ((comparisonDatabase instanceof OracleDatabase) || ((comparisonDatabase instanceof AbstractDb2Database) && (pk
+        if ((comparisonDatabase instanceof OracleDatabase || comparisonDatabase instanceof OSCARDatabase) || ((comparisonDatabase instanceof AbstractDb2Database) && (pk
             .getBackingIndex() != null) && !comparisonDatabase.isSystemObject(pk.getBackingIndex()))) {
             Index backingIndex = pk.getBackingIndex();
             if ((backingIndex != null) && (backingIndex.getName() != null)) {

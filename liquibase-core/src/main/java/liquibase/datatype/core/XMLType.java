@@ -29,7 +29,7 @@ public class XMLType extends LiquibaseDataType {
             } catch (DatabaseException ignore) { } // assuming it is a newer version
 
             return "xml '" + database.escapeStringForDatabase(val) + "'";
-        } else if (database instanceof OracleDatabase) {
+        } else if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             return "XMLType('" + database.escapeStringForDatabase(val) + "')";
         }
         return "'" + database.escapeStringForDatabase(val) + "'";
@@ -55,7 +55,7 @@ public class XMLType extends LiquibaseDataType {
             return new DatabaseDataType("XML");
         } else if (database instanceof AbstractDb2Database) {
             return new DatabaseDataType("XML");
-        } else if (database instanceof OracleDatabase) {
+        } else if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             return new DatabaseDataType("XMLTYPE");
         } else if (database instanceof FirebirdDatabase) {
             return new DatabaseDataType("BLOB SUB_TYPE TEXT");

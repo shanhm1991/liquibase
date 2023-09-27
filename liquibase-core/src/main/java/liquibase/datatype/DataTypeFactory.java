@@ -3,6 +3,7 @@ package liquibase.datatype;
 import liquibase.Scope;
 import liquibase.change.ColumnConfig;
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.datatype.core.BigIntType;
 import liquibase.datatype.core.CharType;
@@ -215,13 +216,13 @@ public class DataTypeFactory {
             for (String param : params) {
                 param = StringUtil.trimToNull(param);
                 if (param != null) {
-                    if ((liquibaseDataType instanceof CharType) && !(database instanceof OracleDatabase)) {
+                    if ((liquibaseDataType instanceof CharType) && !(database instanceof OracleDatabase || database instanceof OSCARDatabase)) {
                         // TODO this might lead to wrong snapshot results in Oracle Database, because it assumes
                         // NLS_LENGTH_SEMANTICS=BYTE. If NLS_LENGTH_SEMANTICS=CHAR, we need to trim " CHAR" instead.
-    
+
                         // not sure what else supports it:
                         param = param.replaceFirst(" BYTE", ""); //only use byte types on oracle,
-                        
+
                     }
                     liquibaseDataType.addParameter(param);
                 }

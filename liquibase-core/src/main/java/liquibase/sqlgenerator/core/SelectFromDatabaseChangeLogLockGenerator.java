@@ -3,6 +3,7 @@ package liquibase.sqlgenerator.core;
 import liquibase.change.ColumnConfig;
 import liquibase.database.Database;
 import liquibase.database.ObjectQuotingStrategy;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.exception.ValidationErrors;
 import liquibase.sql.Sql;
@@ -25,7 +26,7 @@ public class SelectFromDatabaseChangeLogLockGenerator extends AbstractSqlGenerat
     public Sql[] generateSql(SelectFromDatabaseChangeLogLockStatement statement, final Database database, SqlGeneratorChain sqlGeneratorChain) {
     	String liquibaseSchema;
    		liquibaseSchema = database.getLiquibaseSchemaName();
-		
+
 		ColumnConfig[] columns = statement.getColumnsToSelect();
 		int numberOfColumns = columns.length;
         // use LEGACY quoting since we're dealing with system objects
@@ -45,7 +46,7 @@ public class SelectFromDatabaseChangeLogLockGenerator extends AbstractSqlGenerat
                     database.escapeTableName(database.getLiquibaseCatalogName(), liquibaseSchema, database.getDatabaseChangeLogLockTableName()) +
                 " WHERE " + database.escapeColumnName(database.getLiquibaseCatalogName(), liquibaseSchema, database.getDatabaseChangeLogLockTableName(), "ID") + "=1";
 
-            if (database instanceof OracleDatabase) {
+            if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                 sql += " FOR UPDATE";
             }
             return new Sql[] {

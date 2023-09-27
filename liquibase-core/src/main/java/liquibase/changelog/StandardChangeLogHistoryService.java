@@ -279,7 +279,7 @@ public class StandardChangeLogHistoryService extends AbstractChangeLogHistorySer
 
         for (SqlStatement sql : statementsToExecute) {
             if (SqlGeneratorFactory.getInstance().supports(sql, database)) {
-                executor.execute(sql);
+                executor.execute(sql); // TODO
                 getDatabase().commit();
             } else {
                 Scope.getCurrentScope().getLog(getClass()).info("Cannot run " + sql.getClass().getSimpleName() + " on" +

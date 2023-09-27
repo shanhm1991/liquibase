@@ -3,6 +3,7 @@ package liquibase.datatype.core;
 import liquibase.database.Database;
 import liquibase.database.core.HsqlDatabase;
 import liquibase.database.core.MSSQLDatabase;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.datatype.DataTypeInfo;
 import liquibase.datatype.DatabaseDataType;
@@ -19,7 +20,7 @@ public class NCharType extends CharType {
         if (database instanceof HsqlDatabase) {
             return new DatabaseDataType("CHAR", getParameters());
         }
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             return new DatabaseDataType("NCHAR", getParameters());
         }
         if (database instanceof MSSQLDatabase) {

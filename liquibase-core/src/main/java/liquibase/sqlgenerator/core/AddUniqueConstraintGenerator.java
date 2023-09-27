@@ -30,7 +30,7 @@ public class AddUniqueConstraintGenerator extends AbstractSqlGenerator<AddUnique
         validationErrors.checkRequiredField("columnNames", addUniqueConstraintStatement.getColumnNames());
         validationErrors.checkRequiredField("tableName", addUniqueConstraintStatement.getTableName());
 
-        if (!(database instanceof OracleDatabase)) {
+        if (!(database instanceof OracleDatabase || database instanceof OSCARDatabase)) {
             validationErrors.checkDisallowedField("forIndexName", addUniqueConstraintStatement.getForIndexName(), database);
         }
 
@@ -56,7 +56,7 @@ public class AddUniqueConstraintGenerator extends AbstractSqlGenerator<AddUnique
                     , database.escapeColumnNameList(statement.getColumnNames())
             );
         }
-        if ((database instanceof OracleDatabase) || (database instanceof PostgresDatabase)) {
+        if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) || (database instanceof PostgresDatabase)) {
             if (statement.isDeferrable()) {
                 sql += " DEFERRABLE";
             }
@@ -65,7 +65,7 @@ public class AddUniqueConstraintGenerator extends AbstractSqlGenerator<AddUnique
             }
         }
 
-        if ((database instanceof OracleDatabase) &&  statement.isDisabled()) {
+        if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) &&  statement.isDisabled()) {
             sql += " DISABLE";
         }
 
@@ -84,7 +84,7 @@ public class AddUniqueConstraintGenerator extends AbstractSqlGenerator<AddUnique
             } else if ((database instanceof AbstractDb2Database) || (database instanceof SybaseASADatabase) || (database
                 instanceof InformixDatabase)) {
                 ; //not supported
-            } else if (database instanceof OracleDatabase) {
+            } else if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                 /*
                  * In Oracle, you can use only exactly one of these clauses:
                  * 1. USING INDEX (identifier)
@@ -102,7 +102,7 @@ public class AddUniqueConstraintGenerator extends AbstractSqlGenerator<AddUnique
             }
         }
 
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             sql += !statement.shouldValidate() ? " ENABLE NOVALIDATE " : "";
         }
 

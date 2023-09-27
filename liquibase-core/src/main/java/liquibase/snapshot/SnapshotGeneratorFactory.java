@@ -30,6 +30,7 @@ public class SnapshotGeneratorFactory {
                 register(generator);
             }
 
+
         } catch (Exception e) {
             throw new UnexpectedLiquibaseException(e);
         }

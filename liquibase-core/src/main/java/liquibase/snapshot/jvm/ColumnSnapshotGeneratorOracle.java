@@ -1,6 +1,7 @@
 package liquibase.snapshot.jvm;
 
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.snapshot.CachedRow;
 import liquibase.snapshot.SnapshotGenerator;
@@ -15,7 +16,7 @@ public class ColumnSnapshotGeneratorOracle extends ColumnSnapshotGenerator {
 
     @Override
     public int getPriority(Class<? extends DatabaseObject> objectType, Database database) {
-        if (database instanceof OracleDatabase)
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase)
             return PRIORITY_DATABASE;
         else
             return PRIORITY_NONE; // Other DB? Let the generic handler do it.

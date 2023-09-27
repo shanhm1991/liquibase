@@ -2,16 +2,7 @@ package liquibase.sqlgenerator.core;
 
 import liquibase.Scope;
 import liquibase.database.Database;
-import liquibase.database.core.AbstractDb2Database;
-import liquibase.database.core.Db2zDatabase;
-import liquibase.database.core.InformixDatabase;
-import liquibase.database.core.MSSQLDatabase;
-import liquibase.database.core.MySQLDatabase;
-import liquibase.database.core.OracleDatabase;
-import liquibase.database.core.PostgresDatabase;
-import liquibase.database.core.SQLiteDatabase;
-import liquibase.database.core.SybaseASADatabase;
-import liquibase.database.core.SybaseDatabase;
+import liquibase.database.core.*;
 import liquibase.datatype.DatabaseDataType;
 import liquibase.datatype.LiquibaseDataType;
 import liquibase.exception.DatabaseException;
@@ -120,7 +111,7 @@ public class CreateTableGenerator extends AbstractSqlGenerator<CreateTableStatem
                     }
                     buffer.append(" CONSTRAINT ").append(database.escapeObjectName(constraintName, ForeignKey.class));
                 }
-              if (((database instanceof OracleDatabase) || (database instanceof PostgresDatabase)) && statement.getDefaultValue(column).toString().startsWith
+              if (((database instanceof OracleDatabase || database instanceof OSCARDatabase) || (database instanceof PostgresDatabase)) && statement.getDefaultValue(column).toString().startsWith
                         ("GENERATED ALWAYS "))  {
                     buffer.append(" ");
                 } else if (database instanceof Db2zDatabase && statement.getDefaultValue(column).toString().contains("CURRENT TIMESTAMP")
@@ -199,7 +190,7 @@ public class CreateTableGenerator extends AbstractSqlGenerator<CreateTableStatem
                     }
 
                     if (!nnConstraintForThisColumn.shouldValidateNullable()) {
-                        if (database instanceof OracleDatabase) {
+                        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                             buffer.append(" ENABLE NOVALIDATE ");
                         }
                     }
@@ -246,7 +237,7 @@ public class CreateTableGenerator extends AbstractSqlGenerator<CreateTableStatem
                 buffer.append(database.escapeColumnNameList(StringUtil.join(statement.getPrimaryKeyConstraint().getColumns(), ", ")));
                 buffer.append(")");
                 // Setting up table space for PK's index if it exist
-                if (((database instanceof OracleDatabase) || (database instanceof PostgresDatabase)) && (statement
+                if (((database instanceof OracleDatabase || database instanceof OSCARDatabase) || (database instanceof PostgresDatabase)) && (statement
                         .getPrimaryKeyConstraint().getTablespace() != null)) {
                     buffer.append(" USING INDEX TABLESPACE ");
                     buffer.append(statement.getPrimaryKeyConstraint().getTablespace());
@@ -307,7 +298,7 @@ public class CreateTableGenerator extends AbstractSqlGenerator<CreateTableStatem
                 buffer.append(" DEFERRABLE");
             }
 
-            if (database instanceof OracleDatabase) {
+            if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                 buffer.append(!fkConstraint.shouldValidateForeignKey() ? " ENABLE NOVALIDATE " : "");
             }
 
@@ -351,7 +342,7 @@ public class CreateTableGenerator extends AbstractSqlGenerator<CreateTableStatem
             buffer.append(" UNIQUE (");
             buffer.append(database.escapeColumnNameList(StringUtil.join(uniqueConstraint.getColumns(), ", ")));
             buffer.append(")");
-            if (database instanceof OracleDatabase) {
+            if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                 buffer.append(!uniqueConstraint.shouldValidateUnique() ? " ENABLE NOVALIDATE " : "");
             }
             buffer.append(",");

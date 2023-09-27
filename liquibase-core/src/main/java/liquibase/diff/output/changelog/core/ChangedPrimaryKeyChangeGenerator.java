@@ -4,6 +4,7 @@ import liquibase.change.Change;
 import liquibase.change.core.AddPrimaryKeyChange;
 import liquibase.change.core.DropPrimaryKeyChange;
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.diff.Difference;
 import liquibase.diff.ObjectDifferences;
@@ -67,7 +68,7 @@ public class ChangedPrimaryKeyChangeGenerator extends AbstractChangeGenerator im
         addPkChange.setColumnNames(pk.getColumnNames());
         addPkChange.setConstraintName(pk.getName());
 
-        if (comparisonDatabase instanceof OracleDatabase) {
+        if (comparisonDatabase instanceof OracleDatabase || comparisonDatabase instanceof OSCARDatabase) {
             Index backingIndex = pk.getBackingIndex();
             if ((backingIndex != null) && (backingIndex.getName() != null)) {
                 Change[] indexChanges = ChangeGeneratorFactory.getInstance().fixMissing(backingIndex, control, referenceDatabase, comparisonDatabase);

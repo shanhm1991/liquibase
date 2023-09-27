@@ -5,6 +5,7 @@ import liquibase.change.*;
 import liquibase.changelog.ChangeLogParameters;
 import liquibase.GlobalConfiguration;
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.database.core.SQLiteDatabase;
 import liquibase.exception.UnexpectedLiquibaseException;
@@ -266,7 +267,7 @@ public class CreateViewChange extends AbstractChange {
                     .setFullDefinition(fullDefinition));
         }
 
-        if ((database instanceof OracleDatabase) && (StringUtil.trimToNull(remarks) != null)) {
+        if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) && (StringUtil.trimToNull(remarks) != null)) {
             SetTableRemarksStatement remarksStatement = new SetTableRemarksStatement(catalogName, schemaName, viewName, remarks);
             if (SqlGeneratorFactory.getInstance().supports(remarksStatement, database)) {
                 statements.add(remarksStatement);

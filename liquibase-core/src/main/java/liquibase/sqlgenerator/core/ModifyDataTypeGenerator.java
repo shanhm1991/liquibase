@@ -79,7 +79,7 @@ public class ModifyDataTypeGenerator extends AbstractSqlGenerator<ModifyDataType
      */
     protected String getModifyString(Database database) {
         if ((database instanceof SybaseASADatabase) || (database instanceof SybaseDatabase) || (database instanceof
-            MySQLDatabase) || (database instanceof OracleDatabase) || (database instanceof InformixDatabase)
+            MySQLDatabase) || (database instanceof OracleDatabase || database instanceof OSCARDatabase) || (database instanceof InformixDatabase)
                 ) {
             return "MODIFY";
         } else {

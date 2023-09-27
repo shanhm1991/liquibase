@@ -6,6 +6,7 @@ import liquibase.change.Change;
 import liquibase.change.core.*;
 import liquibase.database.Database;
 import liquibase.database.core.MSSQLDatabase;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.database.core.PostgresDatabase;
 import liquibase.datatype.DataTypeFactory;
@@ -163,7 +164,7 @@ public class ChangedColumnChangeGenerator extends AbstractChangeGenerator implem
 
             String tableName = column.getRelation().getName();
 
-            if ((comparisonDatabase instanceof OracleDatabase) && ("clob".equalsIgnoreCase(((DataType) typeDifference
+            if ((comparisonDatabase instanceof OracleDatabase || comparisonDatabase instanceof OSCARDatabase) && ("clob".equalsIgnoreCase(((DataType) typeDifference
                 .getReferenceValue()).getTypeName()) || "clob".equalsIgnoreCase(((DataType) typeDifference
                 .getComparedValue()).getTypeName()))) {
                 String tempColName = "TEMP_CLOB_CONVERT";

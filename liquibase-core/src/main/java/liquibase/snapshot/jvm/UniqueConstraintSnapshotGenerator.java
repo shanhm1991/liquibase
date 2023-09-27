@@ -86,7 +86,7 @@ public class UniqueConstraintSnapshotGenerator extends JdbcSnapshotGenerator {
      * @param columnsMetadata  - it's a cache-map to get metadata about UC
      */
     private void setValidateOptionIfAvailable(Database database, UniqueConstraint uniqueConstraint, Map<String, ?> columnsMetadata) {
-        if (!(database instanceof OracleDatabase)) {
+        if (!(database instanceof OracleDatabase || database instanceof OSCARDatabase)) {
             return;
         }
         final Object constraintValidate = columnsMetadata.get("CONSTRAINT_VALIDATE");
@@ -241,7 +241,7 @@ public class UniqueConstraintSnapshotGenerator extends JdbcSnapshotGenerator {
                     sql += "ORDER BY " +
                             "[ic].[key_ordinal]";
 
-            } else if (database instanceof OracleDatabase) {
+            } else if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                 sql = "select ucc.owner as constraint_container, ucc.constraint_name as constraint_name, ucc.column_name, f.validated as constraint_validate, ucc.table_name " +
                         "from all_cons_columns ucc " +
                         "INNER JOIN all_constraints f " +

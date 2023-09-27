@@ -32,7 +32,7 @@ public class BooleanType extends LiquibaseDataType {
                 return new DatabaseDataType("BIT", getParameters());
             }
             return new DatabaseDataType("BIT", 1);
-        } else if (database instanceof OracleDatabase) {
+        } else if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             return new DatabaseDataType("NUMBER", 1);
         } else if ((database instanceof SybaseASADatabase) || (database instanceof SybaseDatabase)) {
             return new DatabaseDataType("BIT");
@@ -73,7 +73,7 @@ public class BooleanType extends LiquibaseDataType {
                     ((String) value).toLowerCase(Locale.US)) || "f".equals(((String) value).toLowerCase(Locale.US)) || ((String) value).toLowerCase(Locale.US).equals(this.getFalseBooleanValue(database).toLowerCase(Locale.US))) {
                 returnValue = this.getFalseBooleanValue(database);
             } else if (database instanceof PostgresDatabase && Pattern.matches("b?([01])\\1*(::bit|::\"bit\")?", (String) value)) {
-                returnValue = "b'" 
+                returnValue = "b'"
                         + value.toString()
                                 .replace("b", "")
                                 .replace("\"", "")
@@ -119,7 +119,7 @@ public class BooleanType extends LiquibaseDataType {
 			return !((DB2Database) database).supportsBooleanDataType();
     	}
         return (database instanceof Db2zDatabase) || (database instanceof FirebirdDatabase) || (database instanceof
-            MSSQLDatabase) || (database instanceof MySQLDatabase) || (database instanceof OracleDatabase) ||
+            MSSQLDatabase) || (database instanceof MySQLDatabase) || (database instanceof OracleDatabase || database instanceof OSCARDatabase) ||
             (database instanceof SQLiteDatabase) || (database instanceof SybaseASADatabase) || (database instanceof
             SybaseDatabase);
     }

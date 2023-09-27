@@ -40,7 +40,7 @@ public class NumberType extends LiquibaseDataType {
             (database instanceof InformixDatabase) || (database instanceof SybaseASADatabase) || (database instanceof
             SybaseDatabase)) {
             return new DatabaseDataType("numeric", getParameters());
-        } else if (database instanceof OracleDatabase) {
+        } else if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             if ((getParameters().length > 1) && "0".equals(getParameters()[0]) && "-127".equals(getParameters()[1])) {
                 return new DatabaseDataType("NUMBER");
             } else {

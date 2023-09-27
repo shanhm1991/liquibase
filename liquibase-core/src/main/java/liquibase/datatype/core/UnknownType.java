@@ -3,6 +3,7 @@ package liquibase.datatype.core;
 import liquibase.change.core.LoadDataChange;
 import liquibase.database.Database;
 import liquibase.database.core.MSSQLDatabase;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.datatype.DatabaseDataType;
 import liquibase.datatype.LiquibaseDataType;
@@ -50,7 +51,7 @@ public class UnknownType extends LiquibaseDataType {
         }
         Object[] parameters = getParameters();
 
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             if ("LONG".equals(getName().toUpperCase(Locale.US))
                     || "BFILE".equals(getName().toUpperCase(Locale.US))
                     || "ROWID".equals(getName().toUpperCase(Locale.US))

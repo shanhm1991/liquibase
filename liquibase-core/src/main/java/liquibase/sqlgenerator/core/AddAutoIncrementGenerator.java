@@ -27,7 +27,7 @@ public class AddAutoIncrementGenerator extends AbstractSqlGenerator<AddAutoIncre
                 && !(database instanceof MSSQLDatabase)
                 && !(database instanceof HsqlDatabase)
                 && !(database instanceof H2Database)
-                && !(database instanceof OracleDatabase));
+                && !(database instanceof OracleDatabase || database instanceof OSCARDatabase));
     }
 
     @Override

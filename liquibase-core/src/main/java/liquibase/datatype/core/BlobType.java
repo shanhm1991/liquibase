@@ -105,7 +105,7 @@ public class BlobType extends LiquibaseDataType {
             return new DatabaseDataType("IMAGE");
         }
 
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             if (originalDefinition.toLowerCase(Locale.US).startsWith("bfile")) {
                 return new DatabaseDataType("BFILE");
             }

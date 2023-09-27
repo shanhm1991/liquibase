@@ -38,7 +38,7 @@ public class AddPrimaryKeyGenerator extends AbstractSqlGenerator<AddPrimaryKeySt
             }
         }
 
-        if (!((database instanceof OracleDatabase) || (database instanceof AbstractDb2Database))) {
+        if (!((database instanceof OracleDatabase || database instanceof OSCARDatabase) || (database instanceof AbstractDb2Database))) {
             validationErrors.checkDisallowedField("forIndexName", addPrimaryKeyStatement.getForIndexName(), database);
         }
 
@@ -73,10 +73,10 @@ public class AddPrimaryKeyGenerator extends AbstractSqlGenerator<AddPrimaryKeySt
             }
         }
 
-        if ((database instanceof OracleDatabase) && (statement.getForIndexName() != null)) {
+        if ((database instanceof OracleDatabase || database instanceof OSCARDatabase) && (statement.getForIndexName() != null)) {
             sql += " USING INDEX "+database.escapeObjectName(statement.getForIndexCatalogName(), statement.getForIndexSchemaName(), statement.getForIndexName(), Index.class);
         }
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             sql += !statement.shouldValidate() ? " ENABLE NOVALIDATE " : "";
         }
 

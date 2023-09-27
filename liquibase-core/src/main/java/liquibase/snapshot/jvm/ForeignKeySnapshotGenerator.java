@@ -4,13 +4,8 @@ import liquibase.CatalogAndSchema;
 import liquibase.database.AbstractJdbcDatabase;
 import liquibase.database.Database;
 import liquibase.database.DatabaseConnection;
-import liquibase.database.core.DB2Database;
-import liquibase.database.core.Db2zDatabase;
-import liquibase.database.core.MSSQLDatabase;
-import liquibase.database.core.OracleDatabase;
+import liquibase.database.core.*;
 import liquibase.database.jvm.JdbcConnection;
-import liquibase.database.core.MariaDBDatabase;
-import liquibase.database.core.MySQLDatabase;
 import liquibase.diff.compare.DatabaseObjectComparatorFactory;
 import liquibase.exception.DatabaseException;
 import liquibase.snapshot.CachedRow;
@@ -225,7 +220,7 @@ public class ForeignKeySnapshotGenerator extends JdbcSnapshotGenerator {
      * @param cachedRow - it's a cache-map to get metadata about FK
      */
     private void setValidateOptionIfAvailable(Database database, ForeignKey foreignKey, CachedRow cachedRow) {
-        if (!(database instanceof OracleDatabase)) {
+        if (!(database instanceof OracleDatabase || database instanceof OSCARDatabase)) {
             return;
         }
         final String constraintValidate = cachedRow.getString("FK_VALIDATE");

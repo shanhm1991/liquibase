@@ -1,6 +1,7 @@
 package liquibase.sqlgenerator.core;
 
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.exception.ValidationErrors;
 import liquibase.sql.Sql;
@@ -26,7 +27,7 @@ public class StoredProcedureGenerator extends AbstractSqlGenerator<StoredProcedu
         }
         String sql = string.toString().replaceFirst(",$", "")+")";
 
-        if (database instanceof OracleDatabase) {
+        if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             sql = sql.replaceFirst("exec ", "BEGIN ").replaceFirst("\\)$", "); END;");
         }
         return new Sql[] { new UnparsedSql(sql)};

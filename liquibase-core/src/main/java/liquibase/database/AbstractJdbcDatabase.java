@@ -12,11 +12,7 @@ import liquibase.changelog.StandardChangeLogHistoryService;
 import liquibase.GlobalConfiguration;
 import liquibase.configuration.ConfigurationDefinition;
 import liquibase.configuration.ConfiguredValue;
-import liquibase.database.core.OracleDatabase;
-import liquibase.database.core.PostgresDatabase;
-import liquibase.database.core.SQLiteDatabase;
-import liquibase.database.core.SybaseASADatabase;
-import liquibase.database.core.SybaseDatabase;
+import liquibase.database.core.*;
 import liquibase.database.jvm.JdbcConnection;
 import liquibase.diff.DiffGeneratorFactory;
 import liquibase.diff.DiffResult;
@@ -827,7 +823,7 @@ public abstract class AbstractJdbcDatabase implements Database {
     @Override
     public boolean supportsDropTableCascadeConstraints() {
         return ((this instanceof SQLiteDatabase) || (this instanceof SybaseDatabase) || (this instanceof
-            SybaseASADatabase) || (this instanceof PostgresDatabase) || (this instanceof OracleDatabase));
+            SybaseASADatabase) || (this instanceof PostgresDatabase) || (this instanceof OracleDatabase) || (this instanceof OSCARDatabase));
     }
 
     @Override

@@ -1,6 +1,7 @@
 package liquibase.sqlgenerator.core;
 
 import liquibase.database.Database;
+import liquibase.database.core.OSCARDatabase;
 import liquibase.database.core.OracleDatabase;
 import liquibase.exception.ValidationErrors;
 import liquibase.sql.Sql;
@@ -25,7 +26,7 @@ public class DropTableGenerator extends AbstractSqlGenerator<DropTableStatement>
         buffer.append("DROP TABLE ").append(database.escapeTableName(statement.getCatalogName(), statement.getSchemaName(), statement.getTableName()));
         if (statement.isCascadeConstraints()) {
             if (database.supportsDropTableCascadeConstraints()) {
-                if (database instanceof OracleDatabase) {
+                if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                     buffer.append(" CASCADE CONSTRAINTS");
                 } else {
                     buffer.append(" CASCADE");

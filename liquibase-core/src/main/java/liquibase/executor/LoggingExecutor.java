@@ -2,10 +2,7 @@ package liquibase.executor;
 
 import liquibase.changelog.ChangeSet;
 import liquibase.database.Database;
-import liquibase.database.core.MSSQLDatabase;
-import liquibase.database.core.OracleDatabase;
-import liquibase.database.core.SybaseASADatabase;
-import liquibase.database.core.SybaseDatabase;
+import liquibase.database.core.*;
 import liquibase.exception.DatabaseException;
 import liquibase.servicelocator.LiquibaseService;
 import liquibase.servicelocator.PrioritizedService;
@@ -131,7 +128,7 @@ public class LoggingExecutor extends AbstractExecutor {
                 }
 
                 //remove trailing "/"
-                if (database instanceof OracleDatabase) {
+                if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
                     //all trailing "/"s
                     while (statement.matches("(?s).*[\\s\\r\\n]*/[\\s\\r\\n]*$")) {
                         statement = statement.replaceFirst("[\\s\\r\\n]*/[\\s\\r\\n]*$", "");
@@ -247,7 +244,7 @@ public class LoggingExecutor extends AbstractExecutor {
     public boolean updatesDatabase() {
         return false;
     }
-    
+
     private class NoopWriter extends Writer {
 
         @Override
@@ -267,5 +264,5 @@ public class LoggingExecutor extends AbstractExecutor {
 
     }
 
-    
+
 }

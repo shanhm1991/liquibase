@@ -127,7 +127,7 @@ public class ClobType extends LiquibaseDataType {
         } else if ((database instanceof PostgresDatabase) || (database instanceof SQLiteDatabase) || (database
             instanceof SybaseDatabase)) {
             return new DatabaseDataType("TEXT");
-        } else if (database instanceof OracleDatabase) {
+        } else if (database instanceof OracleDatabase || database instanceof OSCARDatabase) {
             if ("nclob".equals(originalDefinition.toLowerCase(Locale.US))) {
                 return new DatabaseDataType("NCLOB");
             }
